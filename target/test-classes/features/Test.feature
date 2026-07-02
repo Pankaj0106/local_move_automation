@@ -11,7 +11,7 @@ Scenario Outline: Verify user is able to successfully Add New Customer
 	Then User navigate to Companies section
 	And User clicks on Add Customer Button
 	Then Fill details for Step1
-		|CompanyName 	|	A3	 	|
+		|CompanyName 	|	A3	 		|
 		|CompanyEmail	| a3@gmail.com	|
 		|Password		|	123456	 	|
 		|FirstName		|	Test	 	|

@@ -42,7 +42,7 @@ public class LoginPage {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessage)).getAttribute("textContent")
 				.trim();
 	}
-	
+
 	public void waitToastMessageDisappear() {
 		wait.until(ExpectedConditions.invisibilityOfElementLocated(toastMessage));
 	}

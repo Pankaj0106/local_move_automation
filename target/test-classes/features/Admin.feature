@@ -43,7 +43,6 @@ Feature: Admin feature validation
       | Testing15@gmail.com | Testing15 | AB10               | AB12             | A Few Items | Small Van    | Half Van |
 
 
-
 Scenario Outline: Verify successfully placed order is reflected in the Admin panel
   	Given User launches application
   	When User accepts cookies
@@ -123,6 +122,37 @@ Scenario Outline: Verify user is not able to Add New Customer with same data
       | Phone    | 9876543210            |
       | Password | Test@123              |  
     Then User verify toast message "User with this email already exists"     
+  	
+  	Examples:
+	|	Email			  | Password	| 
+	|admin@localmoves.com | 1234		|
+	
+
+Scenario Outline: Verify user is able to successfully Add New Customer
+	Given User launches application
+  	When User accepts cookies
+  	And User navigates to Customer Login
+  	And User enters email "<Email>"
+  	And User enters password "<Password>"
+  	And User clicks login
+    Then User verify toast message "Login successful!"
+	Then User navigate to Companies section
+	And User clicks on Add Customer Button
+	Then Fill details for Step1
+		|CompanyName 	|	A3	 		|
+		|CompanyEmail	| a3@gmail.com	|
+		|Password		|	123456	 	|
+		|FirstName		|	Test	 	|
+		|LastName		|	123		 	|
+		|Phone			| 9341037274 	|
+		|Subscription 	|Jobs - Founder	|
+	Then User clicks on the Next Step
+	Then User Fill details foe Step2
+		|Postcode	|  Ab100	|
+		|City		|  Testing	|
+		|Address	|  Test		|
+	And User clicks on Register Company button
+	Then the company "A3" should be visible in the company list
   	
   	Examples:
 	|	Email			  | Password	| 

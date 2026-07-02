@@ -83,7 +83,7 @@ public class LogisticsFlow {
 	private By ByNoCompaniesMsg = By.xpath("//h3[@class='text-xl font-semibold text-gray-700 mb-2']");
 
 	private By ByClickMyBookings = By.xpath("//span[normalize-space()='My Bookings']");
-	
+
 	By pincodeValidateInBookingPage = By.xpath("//p[contains(.,'Pincodes')]");
 
 	public void waitThread() {
@@ -205,11 +205,12 @@ public class LogisticsFlow {
 	public void clickMyBookings() {
 		wait.until(ExpectedConditions.elementToBeClickable(ByClickMyBookings)).click();
 	}
-	
-	public void verifyBookingOrder(String collectionPostcode, String deliveryPostcode) {	
-		
-		String pincodeText = wait.until(ExpectedConditions.presenceOfElementLocated(pincodeValidateInBookingPage)).getText();	
+
+	public void verifyBookingOrder(String collectionPostcode, String deliveryPostcode) {
+
+		String pincodeText = wait.until(ExpectedConditions.presenceOfElementLocated(pincodeValidateInBookingPage))
+				.getText();
 		String expectedMessage = collectionPostcode + " → " + deliveryPostcode;
-		Assert.assertEquals(pincodeText.split(":")[1].trim(),expectedMessage);
+		Assert.assertEquals(pincodeText.split(":")[1].trim(), expectedMessage);
 	}
 }

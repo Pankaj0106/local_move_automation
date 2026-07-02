@@ -44,41 +44,50 @@ public class AdminPage {
 	private By txtPassword = By.xpath("//input[@placeholder='Min. 8 characters']");
 
 	private By btnCreateCustomer = By.xpath("//button[normalize-space()='Create Customer']");
-	
+
 	private By byCalcelBtn = By.xpath("//button[normalize-space() = 'Cancel']");
-	
+
 	private By byCustomerBtn = By.xpath("//a[normalize-space()='Companies']");
 
 	private By byAddCompanyBtn = By.xpath("//button[normalize-space()='Add Company']");
-	
+
 	private By byCompanyName = By.xpath("//input[@placeholder='Enter company name']");
+
 	private By byCompanyEmail = By.xpath("//input[@placeholder='you@company.com']");
-	private By byPassword	= By.xpath("//input[@name='password']");
+	private By byPassword = By.xpath("//input[@name='password']");
+
 	private By byFirstName = By.xpath("//input[@name='firstName']");
+
 	private By byLastName = By.xpath("//input[@name='lastName']");
+
 	private By byphone = By.xpath("//input[@name='phone']");
+
 	private By bySubscription = By.xpath("//select[@name='subscription_plan']");
 
 	private By byNextStepBtn = By.xpath("//button[normalize-space()='Next Step']");
-				
+
 	private By byPostcode = By.xpath("//input[@name='pincode']");
+
 	private By byCity = By.xpath("//input[@name='location']");
+
 	private By byAddress = By.xpath("//textarea[@name='address']");
+
 	private By byCoverAllAreasBtn = By.xpath("//button[normalize-space()='Cover All Areas']");
+
 	private By byRegisterCompanyBtn = By.xpath("//button[normalize-space()='Register Company']");
-	
-	public void fillStep2ForCompanyRegisteration(String postcode,String city,String address) {
-		
+
+	public void fillStep2ForCompanyRegisteration(String postcode, String city, String address) {
+
 		driver.findElement(byPostcode).sendKeys(postcode);
 		driver.findElement(byCity).sendKeys(city);
 		driver.findElement(byAddress).sendKeys(address);
 		driver.findElement(byCoverAllAreasBtn).click();
 	}
-	
+
 	public void clickRegisterCompanyButton() {
 		wait.until(ExpectedConditions.elementToBeClickable(byRegisterCompanyBtn)).click();
 	}
-	
+
 	public void clickQuote() {
 		wait.until(ExpectedConditions.elementToBeClickable(byClickQuoteBtn)).click();
 	}
@@ -87,7 +96,7 @@ public class AdminPage {
 		return (wait.until(ExpectedConditions.presenceOfElementLocated(byQuoteIdAdmin)).getText());
 	}
 
-	public String fetchQuoteIDCustomer(String email,String pass) {
+	public String fetchQuoteIDCustomer(String email, String pass) {
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -129,29 +138,31 @@ public class AdminPage {
 	public void clickCreateCustomer() {
 		wait.until(ExpectedConditions.elementToBeClickable(btnCreateCustomer)).click();
 	}
-	
+
 	public boolean isCustomerPresent(String email) {
-		By byCustomerPresent = By.xpath("//td[normalize-space() = '" + email + "']");		
+		By byCustomerPresent = By.xpath("//td[normalize-space() = '" + email + "']");
 		return !driver.findElements(byCustomerPresent).isEmpty();
 	}
 
 	public void clickCancelButton() {
 		wait.until(ExpectedConditions.elementToBeClickable(byCalcelBtn)).click();
 	}
-	
+
 	public void clickCustomersBtn() {
-	
-		wait.until(ExpectedConditions.elementToBeClickable(byCustomerBtn)).click();;
+
+		wait.until(ExpectedConditions.elementToBeClickable(byCustomerBtn)).click();
+		;
 	}
-	
+
 	public void clickAddCompanyBtn() {
-		
-		wait.until(ExpectedConditions.elementToBeClickable(byAddCompanyBtn)).click();;
+
+		wait.until(ExpectedConditions.elementToBeClickable(byAddCompanyBtn)).click();
+		;
 	}
-	
+
 	public void fillStep1ForCompanyRegisteration(String companyName, String companyEmail, String companyPassword,
 			String firstName, String lastName, String phone, String subscription) {
-				
+
 		driver.findElement(byCompanyName).sendKeys(companyName);
 		driver.findElement(byCompanyEmail).sendKeys(companyEmail);
 		driver.findElement(byPassword).sendKeys(companyPassword);
@@ -163,18 +174,18 @@ public class AdminPage {
 		Select select = new Select(sub_plan);
 		select.selectByVisibleText(subscription);
 	}
-	
+
 	public void clickNextButton() {
 		wait.until(ExpectedConditions.elementToBeClickable(byNextStepBtn)).click();
 	}
-	
+
 	public boolean isCompanyPresent(String companyName) {
-	    By locator = By.xpath("//span[normalize-space()='" + companyName + "']");
-	    try {
-	        wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-	        return true;
-	    } catch (TimeoutException e) {
-	        return false;
-	    }
+		By locator = By.xpath("//span[normalize-space()='" + companyName + "']");
+		try {
+			wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+			return true;
+		} catch (TimeoutException e) {
+			return false;
+		}
 	}
 }

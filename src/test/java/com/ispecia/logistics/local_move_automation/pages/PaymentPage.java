@@ -1,4 +1,4 @@
- package com.ispecia.logistics.local_move_automation.pages;
+package com.ispecia.logistics.local_move_automation.pages;
 
 import java.time.Duration;
 import java.util.Set;
