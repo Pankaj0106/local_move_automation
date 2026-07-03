@@ -4,11 +4,9 @@ import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -85,7 +83,10 @@ public class AdminPage {
 	private By bySaveChangesButton = By.xpath("//button[normalize-space()='Save Changes']");
 	
 	public void refreshThePage() {
-		driver.findElement(By.tagName("body")).sendKeys(Keys.F5);
+		driver.get(driver.getCurrentUrl());
+		 wait.until(webDriver -> ((JavascriptExecutor) webDriver)
+                 .executeScript("return document.readyState")
+                 .equals("complete"));
 	}
 
 	public void clickEditByCompanyName(String companyName) {
