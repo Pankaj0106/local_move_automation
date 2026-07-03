@@ -3,9 +3,12 @@ package com.ispecia.logistics.local_move_automation.pages;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,6 +19,7 @@ public class AdminPage {
 	WebDriverWait wait;
 	HomePage homepage;
 	LoginPage loginpage;
+	JavascriptExecutor js;
 
 	public AdminPage(WebDriver driver) {
 		this.driver = driver;
@@ -23,6 +27,7 @@ public class AdminPage {
 
 		homepage = new HomePage(driver);
 		loginpage = new LoginPage(driver);
+		this.js = (JavascriptExecutor) driver;
 	}
 
 	private By byClickQuoteBtn = By.xpath("//a[normalize-space()='Quotes']");
@@ -51,9 +56,10 @@ public class AdminPage {
 
 	private By byAddCompanyBtn = By.xpath("//button[normalize-space()='Add Company']");
 
-	private By byCompanyName = By.xpath("//input[@placeholder='Enter company name']");
+	private By byCompanyName = By.xpath("//input[@name='company_name']");
 
-	private By byCompanyEmail = By.xpath("//input[@placeholder='you@company.com']");
+	private By byCompanyEmail = By.xpath("//input[@name='manager_email']");
+
 	private By byPassword = By.xpath("//input[@name='password']");
 
 	private By byFirstName = By.xpath("//input[@name='firstName']");
@@ -75,6 +81,19 @@ public class AdminPage {
 	private By byCoverAllAreasBtn = By.xpath("//button[normalize-space()='Cover All Areas']");
 
 	private By byRegisterCompanyBtn = By.xpath("//button[normalize-space()='Register Company']");
+
+	private By bySaveChangesButton = By.xpath("//button[normalize-space()='Save Changes']");
+	
+	public void refreshThePage() {
+		driver.findElement(By.tagName("body")).sendKeys(Keys.F5);
+	}
+
+	public void clickEditByCompanyName(String companyName) {
+		By editButton = By
+				.xpath("//tr[.//span[normalize-space()='" + companyName + "']]//button[normalize-space()='Edit']");
+
+		wait.until(ExpectedConditions.elementToBeClickable(editButton)).click();
+	}
 
 	public void fillStep2ForCompanyRegisteration(String postcode, String city, String address) {
 
@@ -151,25 +170,26 @@ public class AdminPage {
 	public void clickCustomersBtn() {
 
 		wait.until(ExpectedConditions.elementToBeClickable(byCustomerBtn)).click();
-		;
 	}
 
 	public void clickAddCompanyBtn() {
 
 		wait.until(ExpectedConditions.elementToBeClickable(byAddCompanyBtn)).click();
-		;
+
 	}
 
 	public void fillStep1ForCompanyRegisteration(String companyName, String companyEmail, String companyPassword,
 			String firstName, String lastName, String phone, String subscription) {
 
-		driver.findElement(byCompanyName).sendKeys(companyName);
-		driver.findElement(byCompanyEmail).sendKeys(companyEmail);
-		driver.findElement(byPassword).sendKeys(companyPassword);
-		driver.findElement(byFirstName).sendKeys(firstName);
-		driver.findElement(byLastName).sendKeys(firstName);
-		driver.findElement(byLastName).sendKeys(lastName);
-		driver.findElement(byphone).sendKeys(phone);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byCompanyName)).sendKeys(companyName);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byCompanyEmail)).sendKeys(companyEmail);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byPassword)).sendKeys(companyPassword);
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byFirstName)).sendKeys(firstName);
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byLastName)).sendKeys(lastName);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byphone)).sendKeys(phone);
+
 		WebElement sub_plan = driver.findElement(bySubscription);
 		Select select = new Select(sub_plan);
 		select.selectByVisibleText(subscription);
@@ -187,5 +207,69 @@ public class AdminPage {
 		} catch (TimeoutException e) {
 			return false;
 		}
+	}
+
+	public void updateCompanyDetail(String companyName) {
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byCompanyName)).clear();
+		;
+		wait.until(ExpectedConditions.visibilityOfElementLocated(byCompanyName)).sendKeys(companyName);
+	}
+
+	public void clickSaveChangesButton() {
+		wait.until(ExpectedConditions.elementToBeClickable(bySaveChangesButton)).click();
+	}
+
+	public void clickDeleteIcon(String companyName) {
+		By deleteButton = By
+				.xpath("//tr[.//span[normalize-space()='" + companyName + "']]//button[normalize-space()='Delete']");
+
+		wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
+	}
+
+	public void clickPromptConfirmCancel(String confirmDeleteSelection) {
+		By byconfirmButton = By.xpath("//h2[normalize-space()='Delete Company?']/following::button[normalize-space()='"
+				+ confirmDeleteSelection + "'][1]");
+
+		wait.until(ExpectedConditions.elementToBeClickable(byconfirmButton)).click();
+	}
+
+	public boolean verifyCompanyPresence(String companyName) {
+
+		By deletedAccountPresenceCheck = By.xpath("//tr[.//span[contains(normalize-space(),'" + companyName
+				+ "_DELETED_')] and .//span[normalize-space()='Deleted by admin']]");
+		return !driver.findElements(deletedAccountPresenceCheck).isEmpty();
+	}
+	
+	public boolean verifyCustomerPresence(String customerID) {
+
+		By deletedAccountPresenceCheck = By.xpath("//tr[.//td[contains(normalize-space(),'" + customerID
+				+ "_DELETED_')] and .//span[normalize-space()='Deleted by admin']]");
+		return !driver.findElements(deletedAccountPresenceCheck).isEmpty();
+	}
+
+	public void clickEditButton(String customerEmail) {
+
+		By ByEditButton = By
+				.xpath("//tr[.//td[normalize-space()='" + customerEmail + "']]//button[normalize-space()='Edit']");
+		wait.until(ExpectedConditions.elementToBeClickable(ByEditButton)).click();
+	}
+
+	public void updateCustomerDetails(String fullName) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(txtFullName)).clear();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(txtFullName)).sendKeys(fullName);
+		;
+	}
+
+	public void deleteCustomerByEmail(String email) {
+
+		By deleteButton = By.xpath("//tr[.//td[normalize-space()='" + email + "']]//button[contains(.,'Delete')]");
+
+		wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
+	}
+	
+	public void clickConfirmButton(String confirmButton) {
+		By deleteButton = By.xpath("//div[h2[normalize-space()='Delete Customer']]//button[normalize-space()='"+confirmButton+"']");
+	    wait.until(ExpectedConditions.elementToBeClickable(deleteButton)).click();
 	}
 }

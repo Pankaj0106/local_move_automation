@@ -1,6 +1,6 @@
-Feature: Test
+Feature: Test	
 
-Scenario Outline: Verify user is able to successfully Add New Customer
+Scenario Outline: Verify user is able to successfully Delete Customer
 	Given User launches application
   	When User accepts cookies
   	And User navigates to Customer Login
@@ -8,25 +8,21 @@ Scenario Outline: Verify user is able to successfully Add New Customer
   	And User enters password "<Password>"
   	And User clicks login
     Then User verify toast message "Login successful!"
-	Then User navigate to Companies section
-	And User clicks on Add Customer Button
-	Then Fill details for Step1
-		|CompanyName 	|	A3	 		|
-		|CompanyEmail	| a3@gmail.com	|
-		|Password		|	123456	 	|
-		|FirstName		|	Test	 	|
-		|LastName		|	123		 	|
-		|Phone			| 9341037274 	|
-		|Subscription 	|Jobs - Founder	|
-	Then User clicks on the Next Step
-	Then User Fill details foe Step2
-		|Postcode	|  Ab100	|
-		|City		|  Testing	|
-		|Address	|  Test		|
-	And User clicks on Register Company button
-	Then the company "A3" should be visible in the company list
+    And User Navigates to Customers section
+    When User creates a new customer with following details
+      | FullName | P9		           |
+      | Email    | p09@gmail.com      |
+      | Country  | GB +44              |
+      | Phone    | 7900660045         |
+      | Password | Test@123            |  
+    And the user clicks the Create Customer button
+    Then User verify toast message "User created successfully"
+    Then the customer "p09@gmail.com" should be present in the customer grid as "true"
+	When the user clicks the Delete button for the customer with email "p09@gmail.com"
+	And the user clicks the "Delete" button
+	And Refresh the page
+	Then User verify customer "p09@gmail.com" presence is "false"
   	
   	Examples:
 	|	Email			  | Password	| 
-	|admin@localmoves.com | 1234		|
-	
+	|admin@localmoves.com | 1234		|	

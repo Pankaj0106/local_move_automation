@@ -12,10 +12,10 @@ public class Hooks {
 
 		DriverFactory.initializeDriver();
 	}
-
-	@After
-	public void tearDown() {
-
-		DriverFactory.quitDriver();
-	}
+//
+//	@After
+//	public void tearDown() {
+//
+//		DriverFactory.quitDriver();
+//	}
 }

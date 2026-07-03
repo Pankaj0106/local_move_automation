@@ -102,7 +102,7 @@ public class PaymentPage {
 	}
 
 	public void verifyPaymentSuccessAndNavigateHome() {
-
+		
 		String actualMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(paymentSuccessMessage))
 				.getText();
 
