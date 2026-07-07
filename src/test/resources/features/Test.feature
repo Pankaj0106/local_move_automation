@@ -26,4 +26,4 @@ Scenario Outline: Verify user is able to successfully Delete Customer
   	
   	Examples:
 	|	Email			  | Password	| 
-	|admin@localmoves.com | 1234		|	
+	|admin@localmoves.com | 1234		| 
